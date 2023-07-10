@@ -1,34 +1,69 @@
-[gd_scene load_steps=5 format=3 uid="uid://i1m2mfdu3lsi"]
+[gd_scene load_steps=11 format=3 uid="uid://i1m2mfdu3lsi"]
 
 [ext_resource type="Script" path="res://characters/player.gd" id="1_42do7"]
-[ext_resource type="Texture2D" uid="uid://bixo5sadkpccd" path="res://resources/sprites/egg_player.png" id="1_amf4t"]
+[ext_resource type="Texture2D" uid="uid://bbjtdodagvlq0" path="res://resources/sprites/egg.png" id="2_6ixwg"]
+[ext_resource type="Material" uid="uid://cwi4ov7xoalcw" path="res://resources/shaders/smooth_pixel.tres" id="2_8v8cs"]
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_m1g7i"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_ldbkx"]
+atlas = ExtResource("2_6ixwg")
+region = Rect2(0, 0, 40, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j2b5m"]
+atlas = ExtResource("2_6ixwg")
+region = Rect2(40, 0, 40, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uogx4"]
+atlas = ExtResource("2_6ixwg")
+region = Rect2(80, 0, 40, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l8lwe"]
+atlas = ExtResource("2_6ixwg")
+region = Rect2(120, 0, 40, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fn4ud"]
+atlas = ExtResource("2_6ixwg")
+region = Rect2(160, 0, 40, 40)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_of56x"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("1_amf4t")
+"texture": SubResource("AtlasTexture_ldbkx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j2b5m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uogx4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l8lwe")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fn4ud")
 }],
 "loop": true,
-"name": &"walk",
+"name": &"default",
 "speed": 5.0
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_psamk"]
 radius = 50.0
-height = 134.0
+height = 126.667
 
 [node name="Player" type="CharacterBody2D"]
+platform_floor_layers = 4278190080
 script = ExtResource("1_42do7")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 2
+material = ExtResource("2_8v8cs")
 position = Vector2(3.8147e-06, 3.8147e-06)
-scale = Vector2(0.3, 0.3)
-sprite_frames = SubResource("SpriteFrames_m1g7i")
-animation = &"walk"
+scale = Vector2(2.15, 2.15)
+sprite_frames = SubResource("SpriteFrames_of56x")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(3.8147e-06, 3.8147e-06)
+position = Vector2(0, 2)
 scale = Vector2(0.6, 0.6)
 shape = SubResource("CapsuleShape2D_psamk")
 
@@ -40,8 +75,8 @@ autostart = true
 scale = Vector2(1.01, 1.01)
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(3.8147e-06, 3.8147e-06)
-scale = Vector2(0.6, 0.6)
+position = Vector2(0, 1.9802)
+scale = Vector2(0.594059, 0.594059)
 shape = SubResource("CapsuleShape2D_psamk")
 
 [connection signal="timeout" from="DamageTimer" to="." method="_on_damage_timer_timeout"]

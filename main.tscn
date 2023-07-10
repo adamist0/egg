@@ -6,25 +6,29 @@
 
 [sub_resource type="Curve2D" id="Curve2D_gx5m3"]
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1280, 0, 0, 0, 0, 0, 1280, 720, 0, 0, 0, 0, 0, 720, 0, 0, 0, 0, 0, 0)
+"points": PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1920, 0, 0, 0, 0, 0, 1920, 1080, 0, 0, 0, 0, 0, 1080, 0, 0, 0, 0, 0, 0)
 }
 point_count = 5
 
 [node name="main" type="Node2D"]
+position = Vector2(-76, -56)
 script = ExtResource("1_x5sgc")
 
 [node name="Player" parent="." instance=ExtResource("1_rux3k")]
-position = Vector2(640, 320)
+position = Vector2(960, 560)
 
 [node name="MobPath" type="Path2D" parent="."]
+position = Vector2(-46, -46)
+scale = Vector2(1.13333, 1.18889)
 curve = SubResource("Curve2D_gx5m3")
 
 [node name="MobSpawnLocation" type="PathFollow2D" parent="MobPath"]
 
 [node name="MobTimer" type="Timer" parent="."]
-wait_time = 2.0
+wait_time = 0.7
 
 [node name="HUD" parent="." instance=ExtResource("3_woaa8")]
+position = Vector2(76, 56)
 
 [connection signal="change_health" from="Player" to="HUD" method="_on_player_change_health"]
 [connection signal="change_position" from="Player" to="." method="_on_player_change_position"]
