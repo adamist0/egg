@@ -1,0 +1,40 @@
+[gd_scene load_steps=5 format=3 uid="uid://dk2nrssuxm6op"]
+
+[ext_resource type="Script" path="res://characters/scripts/player.gd" id="1_03e60"]
+[ext_resource type="Texture2D" uid="uid://bixo5sadkpccd" path="res://resources/sprites/egg_player.png" id="1_amf4t"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_m1g7i"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_amf4t")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_psamk"]
+radius = 50.0
+height = 134.0
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_03e60")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(3.8147e-06, 3.8147e-06)
+scale = Vector2(0.3, 0.3)
+sprite_frames = SubResource("SpriteFrames_m1g7i")
+animation = &"walk"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(3.8147e-06, 3.8147e-06)
+scale = Vector2(0.6, 0.6)
+shape = SubResource("CapsuleShape2D_psamk")
+
+[node name="Hitbox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(3.8147e-06, 3.8147e-06)
+scale = Vector2(0.6, 0.6)
+shape = SubResource("CapsuleShape2D_psamk")
