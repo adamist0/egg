@@ -1,8 +1,21 @@
-[gd_scene load_steps=11 format=3 uid="uid://i1m2mfdu3lsi"]
+[gd_scene load_steps=12 format=3 uid="uid://i1m2mfdu3lsi"]
 
 [ext_resource type="Script" path="res://characters/player.gd" id="1_42do7"]
 [ext_resource type="Texture2D" uid="uid://bbjtdodagvlq0" path="res://resources/sprites/egg.png" id="2_6ixwg"]
 [ext_resource type="Material" uid="uid://cwi4ov7xoalcw" path="res://resources/shaders/smooth_pixel.tres" id="2_8v8cs"]
+[ext_resource type="PackedScene" uid="uid://di4y3stpin066" path="res://items/gun.tscn" id="4_ow2t6"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bdiiy"]
+atlas = ExtResource("2_6ixwg")
+region = Rect2(120, 0, 40, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a7qxk"]
+atlas = ExtResource("2_6ixwg")
+region = Rect2(80, 0, 40, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qddoe"]
+atlas = ExtResource("2_6ixwg")
+region = Rect2(160, 0, 40, 40)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ldbkx"]
 atlas = ExtResource("2_6ixwg")
@@ -12,38 +25,31 @@ region = Rect2(0, 0, 40, 40)
 atlas = ExtResource("2_6ixwg")
 region = Rect2(40, 0, 40, 40)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_uogx4"]
-atlas = ExtResource("2_6ixwg")
-region = Rect2(80, 0, 40, 40)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_l8lwe"]
-atlas = ExtResource("2_6ixwg")
-region = Rect2(120, 0, 40, 40)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_fn4ud"]
-atlas = ExtResource("2_6ixwg")
-region = Rect2(160, 0, 40, 40)
-
 [sub_resource type="SpriteFrames" id="SpriteFrames_of56x"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bdiiy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a7qxk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qddoe")
+}],
+"loop": true,
+"name": &"eyes",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_ldbkx")
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_j2b5m")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_uogx4")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_l8lwe")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_fn4ud")
 }],
 "loop": true,
-"name": &"default",
+"name": &"idle",
 "speed": 5.0
 }]
 
@@ -61,6 +67,7 @@ material = ExtResource("2_8v8cs")
 position = Vector2(3.8147e-06, 3.8147e-06)
 scale = Vector2(2.15, 2.15)
 sprite_frames = SubResource("SpriteFrames_of56x")
+animation = &"eyes"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 2)
@@ -71,14 +78,16 @@ shape = SubResource("CapsuleShape2D_psamk")
 wait_time = 0.2
 autostart = true
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Hitbox" type="Area2D" parent="."]
 scale = Vector2(1.01, 1.01)
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(0, 1.9802)
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(0, -2.38419e-07)
 scale = Vector2(0.594059, 0.594059)
 shape = SubResource("CapsuleShape2D_psamk")
 
+[node name="Gun" parent="." instance=ExtResource("4_ow2t6")]
+
 [connection signal="timeout" from="DamageTimer" to="." method="_on_damage_timer_timeout"]
-[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
-[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
+[connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
+[connection signal="area_exited" from="Hitbox" to="." method="_on_hitbox_area_exited"]

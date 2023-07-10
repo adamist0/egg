@@ -19,15 +19,15 @@ func _physics_process(delta):
 		$AnimatedSprite2D.flip_h = true;
 	
 	if enemy_health <= 0:
+		emit_signal("enemy_death", position)
 		queue_free()
-		emit_signal("enemy_death")
 	
 	move_and_slide()
 
 func change_direction(direction):
 	self.player_position = direction
 
-func _on_area_2d_body_entered(body):
+func _on_hitbox_body_entered(body):
 	if body.get_groups().has('projectiles'):
 		enemy_health -= body.bullet_damage
 		body.queue_free()

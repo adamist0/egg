@@ -1,18 +1,26 @@
 extends CharacterBody2D
 
-
-var move_speed = 400
-var bullet_speed = 2000
+var move_speed = 400.0
 var player_health = 100
 var player_is_touching_enemy = false
-var bullet = preload("res://items/bullet.tscn")
+var acceleration = 10
+var active = false
 
 signal change_position
 signal change_health
 signal player_death
+signal player_got_xp
 
 func _ready():
-	emit_signal("change_health", player_health)
+	Global.player = self
+	Global.hud.change_health(player_health)
+
+func start(new_position):
+	position = new_position
+	player_health = 100
+	active = true
+	emit_signal("change_position", position)
+	show()
 
 func _physics_process(delta):
 	var direction = Vector2.ZERO
@@ -28,13 +36,28 @@ func _physics_process(delta):
 	elif Input.is_action_pressed("player_right"):
 		direction.x += 1
 		$AnimatedSprite2D.flip_h = false;
-		
-	if Input.is_action_just_pressed("fire"):
-		var fire_direction = self.global_position.direction_to(mouse_position)
-		fire(fire_direction)
+	
+	if direction.x == 0 && direction.y == 0:
+		$AnimatedSprite2D.play("idle")
+	else:
+		$AnimatedSprite2D.stop()
+		$AnimatedSprite2D.animation = "eyes"
+		var p = global_position - mouse_position
+		if (p.y > 200):
+			$AnimatedSprite2D.set_frame_and_progress(2, 0)
+		elif (p.y < -200):
+			$AnimatedSprite2D.set_frame_and_progress(1, 0)
+		else:
+			$AnimatedSprite2D.set_frame_and_progress(0, 0)
+	
+	if Input.is_action_pressed("fire"):
+		var fire_direction = global_position.direction_to(mouse_position)
+		if active:
+			$Gun.fire(fire_direction)
 		
 	if player_health <= 0:
 		emit_signal("player_death")
+		hide()
 		
 	var lookPosition = self.position - mouse_position
 	
@@ -42,34 +65,27 @@ func _physics_process(delta):
 		$AnimatedSprite2D.flip_h = true;
 	else:
 		$AnimatedSprite2D.flip_h = false;
-		
+
 	velocity = direction.normalized() * move_speed * delta
 	
 	emit_signal("change_position", self.position)
 
 	move_and_collide(velocity)
 
-func fire(fire_direction):
-	var bullet_instance = bullet.instantiate()
-	bullet_instance.position = get_position_delta()
-	
-	var direction = fire_direction - self.position
-	bullet_instance.look_at(fire_direction)
-	
-	bullet_instance.apply_central_impulse(fire_direction * bullet_speed)
-
-	get_tree().get_root().call_deferred("add_child", bullet_instance)
-
 func _on_damage_timer_timeout():
 	if player_is_touching_enemy:
 		player_health -= 20
-		emit_signal("change_health", player_health)
+		Global.hud.change_health(player_health)
 
-func _on_area_2d_body_entered(body):
-	if body.get_groups().has("enemies"):
+func _on_hitbox_area_entered(area):
+	if area.get_groups().has("enemy_hitboxes"):
 		player_is_touching_enemy = true
 
+	if area.get_groups().has("xps"):
+		emit_signal("player_got_xp")
+		area.queue_free()
 
-func _on_area_2d_body_exited(body):
-	if body.get_groups().has("enemies"):
+
+func _on_hitbox_area_exited(area):
+	if area.get_groups().has("enemy_hitboxes"):
 		player_is_touching_enemy = false

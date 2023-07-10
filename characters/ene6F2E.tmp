@@ -1,0 +1,34 @@
+[gd_scene load_steps=5 format=3 uid="uid://cg7gqbs6k20or"]
+
+[ext_resource type="Texture2D" uid="uid://c2dywx0l2td4f" path="res://resources/sprites/enemy.png" id="1_6g41r"]
+[ext_resource type="Script" path="res://characters/enemy.gd" id="1_8vufl"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_coc68"]
+radius = 231.0
+height = 646.0
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_jl4se"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_6g41r")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[node name="Enemy" type="Area2D" groups=["enemies"]]
+scale = Vector2(0.2, 0.2)
+collision_layer = 3
+collision_mask = 3
+script = ExtResource("1_8vufl")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="."]
+scale = Vector2(1, 1)
+shape = SubResource("CapsuleShape2D_coc68")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.14, 0.14)
+sprite_frames = SubResource("SpriteFrames_jl4se")
+animation = &"walk"

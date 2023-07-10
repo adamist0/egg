@@ -1,0 +1,55 @@
+[gd_scene load_steps=8 format=3 uid="uid://yedvrol5lfcl"]
+
+[ext_resource type="Script" path="res://items/xp.gd" id="1_aryr8"]
+[ext_resource type="Material" uid="uid://cwi4ov7xoalcw" path="res://resources/shaders/smooth_pixel.tres" id="1_hbuu3"]
+[ext_resource type="Texture2D" uid="uid://buu60a58bmvki" path="res://resources/sprites/xp.png" id="2_33td7"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_r120x"]
+size = Vector2(32, 21)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_i6vpt"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_33td7")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_m6f2b"]
+size = Vector2(21.875, 16.5625)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_2nvxi"]
+radius = 132.015
+
+[node name="XP" type="CharacterBody2D"]
+collision_layer = 0
+collision_mask = 0
+platform_floor_layers = 4278190080
+script = ExtResource("1_aryr8")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 2.5)
+shape = SubResource("RectangleShape2D_r120x")
+
+[node name="XP" type="Area2D" parent="." groups=["xps"]]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="XP"]
+material = ExtResource("1_hbuu3")
+scale = Vector2(1.6, 1.6)
+sprite_frames = SubResource("SpriteFrames_i6vpt")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="XP"]
+position = Vector2(1.19209e-07, 1.75)
+scale = Vector2(1.6, 1.6)
+shape = SubResource("RectangleShape2D_m6f2b")
+
+[node name="DetectPlayer" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectPlayer"]
+shape = SubResource("CircleShape2D_2nvxi")
+
+[connection signal="body_entered" from="DetectPlayer" to="." method="_on_detect_player_body_entered"]
+[connection signal="body_exited" from="DetectPlayer" to="." method="_on_detect_player_body_exited"]
