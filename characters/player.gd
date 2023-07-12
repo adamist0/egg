@@ -23,9 +23,6 @@ func start(new_position):
 	show()
 
 func _physics_process(delta):
-	if Global.main.game_paused == true:
-		return
-
 	var direction = Vector2.ZERO
 	var mouse_position = get_global_mouse_position()
 	

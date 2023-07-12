@@ -30,9 +30,6 @@ func start_game():
 	$MobTimer.start()
 
 func _on_mob_timer_timeout():
-	if Global.main.game_paused == true:
-		return
-
 	var mob_spawn_rect_size = $MobSpawnRect.get_size()
 	var mob_spawn_rect_position = $MobSpawnRect.position
 
