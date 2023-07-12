@@ -37,11 +37,15 @@ scale = Vector2(2, 2)
 shape = SubResource("RectangleShape2D_25ksu")
 disabled = true
 
-[node name="Marker2D" type="Marker2D" parent="."]
-position = Vector2(36, 6)
+[node name="MarkerRight" type="Marker2D" parent="."]
+z_index = 1
+position = Vector2(35, 6)
 
 [node name="FireTimer" type="Timer" parent="."]
 wait_time = 0.2
 autostart = true
+
+[node name="MarkerLeft" type="Marker2D" parent="."]
+position = Vector2(35, 14)
 
 [connection signal="timeout" from="FireTimer" to="." method="_on_fire_timer_timeout"]

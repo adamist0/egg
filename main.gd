@@ -27,7 +27,7 @@ func start_game():
 	Global.hud.set_hud_state(Global.hud.STATE_GAME_RUNNING)
 	$Player.start($PlayerSpawn.position)
 	$Walls.show()
-	$MobTimer.start()
+#	$MobTimer.start()
 
 func _on_mob_timer_timeout():
 	var mob_spawn_rect_size = $MobSpawnRect.get_size()

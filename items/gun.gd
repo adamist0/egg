@@ -20,7 +20,11 @@ func _process(delta):
 func fire(fire_direction):
 	if !cooldown:
 		var bullet_instance = bullet.instantiate()
-		bullet_instance.position = $Marker2D.position
+		
+		if $AnimatedSprite2D.flip_v == true:
+			bullet_instance.position = $MarkerLeft.position
+		else:
+			bullet_instance.position = $MarkerRight.position
 		
 		var direction = fire_direction - self.position
 		bullet_instance.look_at(fire_direction.rotated(-rotation))
