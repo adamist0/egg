@@ -1,17 +1,17 @@
-[gd_scene load_steps=8 format=3 uid="uid://yedvrol5lfcl"]
+[gd_scene load_steps=8 format=3 uid="uid://bedu382vnkyvj"]
 
-[ext_resource type="Script" path="res://items/xp.gd" id="1_aryr8"]
-[ext_resource type="Material" uid="uid://cwi4ov7xoalcw" path="res://resources/shaders/smooth_pixel.tres" id="1_hbuu3"]
-[ext_resource type="Texture2D" uid="uid://buu60a58bmvki" path="res://resources/sprites/xp.png" id="2_33td7"]
+[ext_resource type="Script" path="res://items/xp.gd" id="1_w8l2v"]
+[ext_resource type="Material" uid="uid://cwi4ov7xoalcw" path="res://resources/shaders/smooth_pixel.tres" id="2_a3mt0"]
+[ext_resource type="Texture2D" uid="uid://xjxorsojxy37" path="res://resources/sprites/heal.png" id="3_ak5qw"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r120x"]
-size = Vector2(32, 21)
+size = Vector2(10, 10)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_i6vpt"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_33td7")
+"texture": ExtResource("3_ak5qw")
 }],
 "loop": true,
 "name": &"default",
@@ -19,33 +19,33 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_m6f2b"]
-size = Vector2(21.875, 16.5625)
+size = Vector2(19.375, 16.25)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_2nvxi"]
-radius = 132.015
+radius = 81.0062
 
-[node name="XP" type="CharacterBody2D"]
+[node name="HP" type="CharacterBody2D"]
 process_mode = 1
 collision_layer = 0
 collision_mask = 0
 platform_floor_layers = 4278190080
-script = ExtResource("1_aryr8")
+script = ExtResource("1_w8l2v")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 2.5)
+position = Vector2(0, -1)
 shape = SubResource("RectangleShape2D_r120x")
 
-[node name="XP" type="Area2D" parent="." groups=["xps"]]
+[node name="HP" type="Area2D" parent="." groups=["hps"]]
 collision_layer = 2
 collision_mask = 2
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="XP"]
-material = ExtResource("1_hbuu3")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="HP"]
+material = ExtResource("2_a3mt0")
 scale = Vector2(1.6, 1.6)
 sprite_frames = SubResource("SpriteFrames_i6vpt")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="XP"]
-position = Vector2(1.19209e-07, 1.75)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HP"]
+position = Vector2(-0.5, -2)
 scale = Vector2(1.6, 1.6)
 shape = SubResource("RectangleShape2D_m6f2b")
 

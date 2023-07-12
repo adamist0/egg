@@ -1,41 +1,100 @@
-[gd_scene load_steps=5 format=3 uid="uid://ch3ychkb8t0gl"]
+[gd_scene load_steps=6 format=3 uid="uid://ch3ychkb8t0gl"]
 
 [ext_resource type="PackedScene" uid="uid://i1m2mfdu3lsi" path="res://characters/player.tscn" id="1_rux3k"]
 [ext_resource type="Script" path="res://main.gd" id="1_x5sgc"]
 [ext_resource type="PackedScene" uid="uid://n1y6vfnoqvuc" path="res://hud.tscn" id="3_woaa8"]
 
-[sub_resource type="Curve2D" id="Curve2D_gx5m3"]
-_data = {
-"points": PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1920, 0, 0, 0, 0, 0, 1920, 1080, 0, 0, 0, 0, 0, 1080, 0, 0, 0, 0, 0, 0)
-}
-point_count = 5
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5mcue"]
+size = Vector2(60, 1078)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bjtd0"]
+size = Vector2(1920, 60)
 
 [node name="main" type="Node2D"]
+process_mode = 3
 position = Vector2(-76, -56)
 script = ExtResource("1_x5sgc")
 
-[node name="HUD" parent="." instance=ExtResource("3_woaa8")]
-position = Vector2(76, 56)
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="HUD" parent="CanvasLayer" instance=ExtResource("3_woaa8")]
+z_index = 10
+
+[node name="MobSpawnRect" type="ReferenceRect" parent="."]
+offset_left = 196.0
+offset_top = 176.0
+offset_right = 1876.0
+offset_bottom = 1016.0
 
 [node name="Player" parent="." instance=ExtResource("1_rux3k")]
+process_mode = 1
+position = Vector2(976, 537)
+
+[node name="PlayerCamera" type="Camera2D" parent="Player"]
+position = Vector2(76, 56)
+zoom = Vector2(1.1, 1.1)
+limit_left = 0
+limit_top = 0
+limit_right = 1920
+limit_bottom = 1080
+position_smoothing_enabled = true
+position_smoothing_speed = 2.0
+editor_draw_limits = true
 
 [node name="PlayerSpawn" type="Marker2D" parent="."]
-position = Vector2(998, 603)
-
-[node name="MobPath" type="Path2D" parent="."]
-position = Vector2(-46, -46)
-scale = Vector2(1.13333, 1.18889)
-curve = SubResource("Curve2D_gx5m3")
-
-[node name="MobSpawnLocation" type="PathFollow2D" parent="MobPath"]
-visible = false
-rotates = false
+position = Vector2(976, 539)
 
 [node name="MobTimer" type="Timer" parent="."]
+process_mode = 1
 wait_time = 0.7
+
+[node name="Walls" type="StaticBody2D" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="Walls"]
+offset_left = 76.0
+offset_top = 56.0
+offset_right = 1996.0
+offset_bottom = 116.0
+color = Color(0.268605, 0.612599, 0.524718, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="Walls"]
+offset_left = 76.0
+offset_top = 1076.0
+offset_right = 1996.0
+offset_bottom = 1136.0
+color = Color(0.266667, 0.611765, 0.52549, 1)
+
+[node name="ColorRect3" type="ColorRect" parent="Walls"]
+offset_left = 76.0
+offset_top = 56.0
+offset_right = 136.0
+offset_bottom = 1076.0
+color = Color(0.266667, 0.611765, 0.52549, 1)
+
+[node name="ColorRect4" type="ColorRect" parent="Walls"]
+offset_left = 1936.0
+offset_top = 56.0
+offset_right = 1996.0
+offset_bottom = 1136.0
+color = Color(0.266667, 0.611765, 0.52549, 1)
+
+[node name="vertical_wall" type="CollisionShape2D" parent="Walls"]
+position = Vector2(106, 597)
+shape = SubResource("RectangleShape2D_5mcue")
+
+[node name="vertical_wall2" type="CollisionShape2D" parent="Walls"]
+position = Vector2(1966, 596)
+shape = SubResource("RectangleShape2D_5mcue")
+
+[node name="horizontal wall" type="CollisionShape2D" parent="Walls"]
+position = Vector2(1036, 86)
+shape = SubResource("RectangleShape2D_bjtd0")
+
+[node name="horizontal wall2" type="CollisionShape2D" parent="Walls"]
+position = Vector2(1036, 1106)
+shape = SubResource("RectangleShape2D_bjtd0")
 
 [connection signal="change_health" from="Player" to="." method="_on_player_change_health"]
 [connection signal="change_position" from="Player" to="." method="_on_player_change_position"]
 [connection signal="player_death" from="Player" to="." method="_on_player_player_death"]
-[connection signal="player_got_xp" from="Player" to="." method="_on_player_player_got_xp"]
 [connection signal="timeout" from="MobTimer" to="." method="_on_mob_timer_timeout"]

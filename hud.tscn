@@ -1,6 +1,18 @@
-[gd_scene load_steps=2 format=3 uid="uid://n1y6vfnoqvuc"]
+[gd_scene load_steps=6 format=3 uid="uid://n1y6vfnoqvuc"]
 
 [ext_resource type="Script" path="res://hud.gd" id="1_ov2ks"]
+
+[sub_resource type="Gradient" id="Gradient_n5uhc"]
+colors = PackedColorArray(1, 0, 0, 1, 1, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_uucht"]
+gradient = SubResource("Gradient_n5uhc")
+
+[sub_resource type="Gradient" id="Gradient_0tcoj"]
+colors = PackedColorArray(0, 1, 0, 1, 0, 1, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_7dfik"]
+gradient = SubResource("Gradient_0tcoj")
 
 [node name="HUD" type="Node2D"]
 script = ExtResource("1_ov2ks")
@@ -12,35 +24,19 @@ theme_override_font_sizes/font_size = 60
 text = "0"
 horizontal_alignment = 1
 
-[node name="HealthLabel" type="Label" parent="."]
-offset_left = 40.0
-offset_top = 1000.0
-offset_right = 148.0
-offset_bottom = 1045.0
-theme_override_font_sizes/font_size = 30
-text = "Health:"
-
-[node name="HealthValue" type="Label" parent="."]
-offset_left = 160.0
-offset_top = 1000.0
-offset_right = 268.0
-offset_bottom = 1045.0
-theme_override_font_sizes/font_size = 30
-text = "0"
-
 [node name="Start" type="Button" parent="."]
-offset_left = 820.0
-offset_top = 360.0
-offset_right = 922.0
-offset_bottom = 423.0
+offset_left = 796.0
+offset_top = 512.0
+offset_right = 898.0
+offset_bottom = 575.0
 theme_override_font_sizes/font_size = 40
 text = "Start"
 
 [node name="Quit" type="Button" parent="."]
-offset_left = 1000.0
-offset_top = 360.0
-offset_right = 1091.0
-offset_bottom = 423.0
+offset_left = 1050.0
+offset_top = 512.0
+offset_right = 1141.0
+offset_bottom = 575.0
 theme_override_font_sizes/font_size = 40
 text = "Quit"
 
@@ -50,6 +46,57 @@ offset_right = 1920.0
 offset_bottom = 266.0
 theme_override_font_sizes/font_size = 60
 text = "GAME OVER"
+horizontal_alignment = 1
+
+[node name="Paused" type="Node2D" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="Paused"]
+offset_right = 1920.0
+offset_bottom = 1080.0
+color = Color(0.752941, 0.752941, 0.752941, 0.247059)
+
+[node name="Paused" type="Label" parent="Paused"]
+offset_top = 308.0
+offset_right = 1920.0
+offset_bottom = 421.0
+size_flags_horizontal = 0
+theme_override_font_sizes/font_size = 80
+text = "PAUSED"
+horizontal_alignment = 1
+
+[node name="Health" type="Node2D" parent="."]
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="Health"]
+offset_left = 9.0
+offset_top = 967.0
+offset_right = 429.0
+offset_bottom = 1007.0
+nine_patch_stretch = true
+texture_under = SubResource("GradientTexture1D_uucht")
+texture_progress = SubResource("GradientTexture1D_7dfik")
+
+[node name="HealthLabel" type="Label" parent="Health"]
+offset_left = 13.0
+offset_top = 1026.0
+offset_right = 121.0
+offset_bottom = 1071.0
+theme_override_font_sizes/font_size = 30
+text = "Health:"
+
+[node name="HealthValue" type="Label" parent="Health"]
+offset_left = 121.0
+offset_top = 1026.0
+offset_right = 229.0
+offset_bottom = 1071.0
+theme_override_font_sizes/font_size = 30
+text = "0"
+
+[node name="GameTitle" type="Label" parent="."]
+offset_top = 308.0
+offset_right = 1920.0
+offset_bottom = 421.0
+theme_override_font_sizes/font_size = 80
+text = "Eggstreme Arena 2D"
 horizontal_alignment = 1
 
 [connection signal="pressed" from="Start" to="." method="_on_start_pressed"]

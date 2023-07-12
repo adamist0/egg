@@ -1,0 +1,71 @@
+[gd_scene load_steps=8 format=3 uid="uid://ch3ychkb8t0gl"]
+
+[ext_resource type="PackedScene" uid="uid://i1m2mfdu3lsi" path="res://characters/player.tscn" id="1_rux3k"]
+[ext_resource type="Script" path="res://main.gd" id="1_x5sgc"]
+[ext_resource type="PackedScene" uid="uid://n1y6vfnoqvuc" path="res://hud.tscn" id="3_woaa8"]
+[ext_resource type="Script" path="res://PlayerCamera.gd" id="4_cxbl5"]
+
+[sub_resource type="Curve2D" id="Curve2D_gx5m3"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1920, 0, 0, 0, 0, 0, 1920, 1080, 0, 0, 0, 0, 0, 1080, 0, 0, 0, 0, 0, 0)
+}
+point_count = 5
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5mcue"]
+size = Vector2(95, 1600)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bjtd0"]
+size = Vector2(2560, 90)
+
+[node name="main" type="Node2D"]
+position = Vector2(-76, -56)
+script = ExtResource("1_x5sgc")
+
+[node name="PlayerCamera" type="Camera2D" parent="."]
+visible = false
+script = ExtResource("4_cxbl5")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="HUD" parent="CanvasLayer" instance=ExtResource("3_woaa8")]
+
+[node name="Player" parent="." instance=ExtResource("1_rux3k")]
+
+[node name="PlayerSpawn" type="Marker2D" parent="."]
+position = Vector2(998, 603)
+
+[node name="MobPath" type="Path2D" parent="."]
+position = Vector2(-46, -46)
+scale = Vector2(1.13333, 1.18889)
+curve = SubResource("Curve2D_gx5m3")
+
+[node name="MobSpawnLocation" type="PathFollow2D" parent="MobPath"]
+visible = false
+rotates = false
+
+[node name="MobTimer" type="Timer" parent="."]
+wait_time = 0.7
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="vertical_wall" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(-244, 616)
+shape = SubResource("RectangleShape2D_5mcue")
+
+[node name="vertical_wall2" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(2316, 616)
+shape = SubResource("RectangleShape2D_5mcue")
+
+[node name="horizontal wall" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(1036, -184)
+shape = SubResource("RectangleShape2D_bjtd0")
+
+[node name="horizontal wall2" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(1036, 1416)
+shape = SubResource("RectangleShape2D_bjtd0")
+
+[connection signal="change_health" from="Player" to="." method="_on_player_change_health"]
+[connection signal="change_position" from="Player" to="." method="_on_player_change_position"]
+[connection signal="player_death" from="Player" to="." method="_on_player_player_death"]
+[connection signal="player_got_xp" from="Player" to="." method="_on_player_player_got_xp"]
+[connection signal="timeout" from="MobTimer" to="." method="_on_mob_timer_timeout"]

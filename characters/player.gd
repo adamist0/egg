@@ -1,15 +1,14 @@
 extends CharacterBody2D
 
-var move_speed = 400.0
-var player_health = 100
-var player_is_touching_enemy = false
-var acceleration = 10
-var active = false
+var move_speed: float = 400.0
+var player_health: int = 100
+var player_is_touching_enemy:bool = false
+var active: bool = false
+var is_autoshoot_active: bool = false
 
 signal change_position
 signal change_health
 signal player_death
-signal player_got_xp
 
 func _ready():
 	Global.player = self
@@ -18,13 +17,17 @@ func _ready():
 func start(new_position):
 	position = new_position
 	player_health = 100
+	Global.hud.change_health(player_health)
 	active = true
 	emit_signal("change_position", position)
 	show()
 
 func _physics_process(delta):
+	if Global.main.game_paused == true:
+		return
+
 	var direction = Vector2.ZERO
-	var mouse_position = get_viewport().get_mouse_position()
+	var mouse_position = get_global_mouse_position()
 	
 	if Input.is_action_pressed("player_down"):
 		direction.y += 1
@@ -50,7 +53,10 @@ func _physics_process(delta):
 		else:
 			$AnimatedSprite2D.set_frame_and_progress(0, 0)
 	
-	if Input.is_action_pressed("fire"):
+	if Input.is_action_just_released("auto_shoot"):
+		is_autoshoot_active = !is_autoshoot_active
+	
+	if Input.is_action_pressed("fire") || is_autoshoot_active:
 		var fire_direction = global_position.direction_to(mouse_position)
 		if active:
 			$Gun.fire(fire_direction)
@@ -70,6 +76,11 @@ func _physics_process(delta):
 	
 	emit_signal("change_position", self.position)
 
+	if velocity.x == 0 && velocity.y == 0:
+		$AnimationPlayer.stop()
+	else:
+		if !$AnimationPlayer.is_playing():
+			$AnimationPlayer.play("doink")
 	move_and_collide(velocity)
 
 func _on_damage_timer_timeout():
@@ -78,14 +89,18 @@ func _on_damage_timer_timeout():
 		Global.hud.change_health(player_health)
 
 func _on_hitbox_area_entered(area):
-	if area.get_groups().has("enemy_hitboxes"):
-		player_is_touching_enemy = true
-
 	if area.get_groups().has("xps"):
-		emit_signal("player_got_xp")
+		Global.main.player_got_xp()
+		area.queue_free()
+	if area.get_groups().has("hps"):
+		Global.main.player_got_hp()
 		area.queue_free()
 
+func _on_hitbox_body_entered(body):
+	if body.get_groups().has("enemies"):
+		player_is_touching_enemy = true
 
-func _on_hitbox_area_exited(area):
-	if area.get_groups().has("enemy_hitboxes"):
+
+func _on_hitbox_body_exited(body):
+	if body.get_groups().has("enemies"):
 		player_is_touching_enemy = false
