@@ -9,7 +9,6 @@ var game_paused = false
 func _ready():
 	Global.main = self
 	Global.player.hide()
-	$Walls.hide()
 
 func _process(delta):
 	if Input.is_action_just_released("pause") && round_running:
@@ -26,12 +25,11 @@ func start_game():
 	Global.hud.change_score(score)
 	Global.hud.set_hud_state(Global.hud.STATE_GAME_RUNNING)
 	$Player.start($PlayerSpawn.position)
-	$Walls.show()
-#	$MobTimer.start()
+	$MobTimer.start()
 
 func _on_mob_timer_timeout():
-	var mob_spawn_rect_size = $MobSpawnRect.get_size()
-	var mob_spawn_rect_position = $MobSpawnRect.position
+	var mob_spawn_rect_size = $Rooms/room1/MobSpawnRect.get_size()
+	var mob_spawn_rect_position = $Rooms/room1/MobSpawnRect.position
 
 	var mob_spawn_position = Vector2(
 		randf_range(mob_spawn_rect_position.x, mob_spawn_rect_position.x + mob_spawn_rect_size.x),
@@ -46,7 +44,6 @@ func _on_mob_timer_timeout():
 	call_deferred("add_child", enemy_instance)
 
 func _on_player_change_position(position):
-	$Player/Gun.player_position = position
 	get_tree().call_group("enemies", "change_direction", position)
 
 func _on_player_player_death():

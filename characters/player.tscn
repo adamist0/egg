@@ -61,6 +61,22 @@ height = 106.667
 radius = 28.7129
 height = 73.2673
 
+[sub_resource type="Animation" id="Animation_8fn51"]
+length = 0.001
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
 [sub_resource type="Animation" id="Animation_vhc6j"]
 resource_name = "doink"
 length = 0.4
@@ -78,22 +94,6 @@ tracks/0/keys = {
 "values": [Vector2(1, 1), Vector2(1.1, 0.8), Vector2(1, 1)]
 }
 
-[sub_resource type="Animation" id="Animation_8fn51"]
-length = 0.001
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(1, 1)]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ok7jy"]
 _data = {
 "RESET": SubResource("Animation_8fn51"),
@@ -109,13 +109,13 @@ script = ExtResource("1_42do7")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 2
 material = ExtResource("2_8v8cs")
-position = Vector2(3.8147e-06, 3.8147e-06)
+position = Vector2(3.8147e-06, -7)
 scale = Vector2(2.15, 2.15)
 sprite_frames = SubResource("SpriteFrames_of56x")
 animation = &"eyes"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 2)
+position = Vector2(0, -5)
 scale = Vector2(0.6, 0.6)
 shape = SubResource("CapsuleShape2D_psamk")
 
@@ -124,6 +124,7 @@ wait_time = 0.2
 autostart = true
 
 [node name="Hitbox" type="Area2D" parent="."]
+position = Vector2(0, -7)
 scale = Vector2(1.01, 1.01)
 collision_layer = 2
 collision_mask = 2
@@ -133,6 +134,8 @@ position = Vector2(0, 1.9802)
 shape = SubResource("CapsuleShape2D_qfi7a")
 
 [node name="Gun" parent="." instance=ExtResource("4_ow2t6")]
+position = Vector2(0, 7)
+metadata/_edit_horizontal_guides_ = [6.0]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

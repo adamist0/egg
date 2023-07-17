@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bjme55lirq861"
-path="res://.godot/imported/aim_cursor.png-cc5dcba6bba2b854ee7b9c98e236e8d8.ctex"
+uid="uid://cqshcgu2oslj"
+path="res://.godot/imported/walls.webp-c3e97edc669698fc799850138ad2b04f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://resources/sprites/aim_cursor.png"
-dest_files=["res://.godot/imported/aim_cursor.png-cc5dcba6bba2b854ee7b9c98e236e8d8.ctex"]
+source_file="res://resources/sprites/walls/walls.webp"
+dest_files=["res://.godot/imported/walls.webp-c3e97edc669698fc799850138ad2b04f.ctex"]
 
 [params]
 

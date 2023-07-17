@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://di4y3stpin066"]
+[gd_scene load_steps=7 format=3 uid="uid://di4y3stpin066"]
 
 [ext_resource type="Script" path="res://items/gun.gd" id="1_bjopf"]
 [ext_resource type="Texture2D" uid="uid://bm35y45f5px83" path="res://resources/sprites/gun.png" id="1_dti8k"]
 [ext_resource type="Material" uid="uid://cwi4ov7xoalcw" path="res://resources/shaders/smooth_pixel.tres" id="1_tgenf"]
+[ext_resource type="AudioStream" uid="uid://dct8ebn1htb66" path="res://resources/sounds/guns/glock-fire.wav" id="4_ltm51"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_exlps"]
 animations = [{
@@ -27,25 +28,29 @@ script = ExtResource("1_bjopf")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 material = ExtResource("1_tgenf")
-position = Vector2(34, 10)
+position = Vector2(34, 2)
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_exlps")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(34, 12)
+position = Vector2(34, 2)
 scale = Vector2(2, 2)
 shape = SubResource("RectangleShape2D_25ksu")
 disabled = true
 
 [node name="MarkerRight" type="Marker2D" parent="."]
 z_index = 1
-position = Vector2(35, 6)
+position = Vector2(52, -4)
 
 [node name="FireTimer" type="Timer" parent="."]
 wait_time = 0.2
 autostart = true
 
 [node name="MarkerLeft" type="Marker2D" parent="."]
-position = Vector2(35, 14)
+position = Vector2(52, 8)
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_ltm51")
+volume_db = -7.815
 
 [connection signal="timeout" from="FireTimer" to="." method="_on_fire_timer_timeout"]

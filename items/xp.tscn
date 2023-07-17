@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://yedvrol5lfcl"]
+[gd_scene load_steps=9 format=3 uid="uid://yedvrol5lfcl"]
 
 [ext_resource type="Script" path="res://items/xp.gd" id="1_aryr8"]
 [ext_resource type="Material" uid="uid://cwi4ov7xoalcw" path="res://resources/shaders/smooth_pixel.tres" id="1_hbuu3"]
 [ext_resource type="Texture2D" uid="uid://buu60a58bmvki" path="res://resources/sprites/xp.png" id="2_33td7"]
+[ext_resource type="AudioStream" uid="uid://b2xx4levsvmgh" path="res://resources/sounds/pickups/xp.wav" id="4_dt36v"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r120x"]
 size = Vector2(32, 21)
@@ -53,6 +54,11 @@ shape = SubResource("RectangleShape2D_m6f2b")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DetectPlayer"]
 shape = SubResource("CircleShape2D_2nvxi")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_dt36v")
+volume_db = 13.226
+pitch_scale = 1.58
 
 [connection signal="body_entered" from="DetectPlayer" to="." method="_on_detect_player_body_entered"]
 [connection signal="body_exited" from="DetectPlayer" to="." method="_on_detect_player_body_exited"]

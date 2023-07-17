@@ -53,7 +53,7 @@ func _physics_process(delta):
 	if Input.is_action_just_released("auto_shoot"):
 		is_autoshoot_active = !is_autoshoot_active
 	
-	if Input.is_action_pressed("fire") || is_autoshoot_active:
+	if Input.is_action_just_released("fire") || is_autoshoot_active:
 		var fire_direction = global_position.direction_to(mouse_position)
 		if active:
 			$Gun.fire(fire_direction)
@@ -88,7 +88,7 @@ func _on_damage_timer_timeout():
 func _on_hitbox_area_entered(area):
 	if area.get_groups().has("xps"):
 		Global.main.player_got_xp()
-		area.queue_free()
+		area.get_parent().taken()
 	if area.get_groups().has("hps"):
 		Global.main.player_got_hp()
 		area.queue_free()

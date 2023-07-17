@@ -17,6 +17,11 @@ func _on_detect_player_body_entered(body):
 		follow_player = true
 		player_body = body
 
+func taken():
+	hide()
+	$AudioStreamPlayer2D.play()
+	await $AudioStreamPlayer2D.finished
+	queue_free()
 
 func _on_detect_player_body_exited(body):
 	if body.name == "Player":
